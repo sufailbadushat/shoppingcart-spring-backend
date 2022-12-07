@@ -32,4 +32,14 @@ public class productController {
     public List<Product> viewProduct(){
         return (List<Product>) productDao.findAll();
     }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/search", produces = "application/json", consumes = "application/json")
+    public List<Product> searchProduct(@RequestBody Product p){
+
+        String name=String.valueOf(p.getName());
+        System.out.println(name);
+        return (List<Product>) productDao.SearchProduct(p.getName());
+
+    }
 }
