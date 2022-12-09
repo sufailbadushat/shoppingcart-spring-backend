@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,5 +28,16 @@ public class userController {
         hashMap.put("status","success");
         return (hashMap);
 
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/loginUser" ,consumes = "application/json", produces = "application/json")
+    public List<User> UserLogin(@RequestBody User user){
+        String username=String.valueOf(user.getEmailId());
+        String password=String.valueOf((user.getPassword()));
+        System.out.println(username);
+        System.out.println(password);
+
+        return (List<User>) userDao.LoginUser(user.getEmailId(),user.getPassword());
     }
 }
