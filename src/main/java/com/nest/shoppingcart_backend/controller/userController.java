@@ -32,12 +32,23 @@ public class userController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/loginUser" ,consumes = "application/json", produces = "application/json")
-    public List<User> UserLogin(@RequestBody User user){
-        String username=String.valueOf(user.getEmailId());
-        String password=String.valueOf((user.getPassword()));
-        System.out.println(username);
-        System.out.println(password);
+    public HashMap<String,String> UserLogin(@RequestBody User user){
 
-        return (List<User>) userDao.LoginUser(user.getEmailId(),user.getPassword());
+        System.out.println(user.getEmailId());
+        System.out.println(user.getPassword());
+
+        List<User> result= userDao.LoginUser(user.getEmailId(),user.getPassword());
+
+        HashMap<String,String> hashMap=new HashMap<>();
+        if (result.size()==0){
+           hashMap.put("status","failed");
+           hashMap.put("message","user doesn't exist.");
+        }
+        else {
+            int id=result.get(0).getId();
+            hashMap.put("userId",String.valueOf(id));
+            hashMap.put("status","success");
+        }
+        return hashMap;
     }
 }
